@@ -4,6 +4,7 @@ release-timeline
 
 **Description**   
 Release Timeline is an extension of the [SIMILE Timeline][url-simile] Project developed by Massachusetts Institute of Technology. This project allows you to manage timeline content dynamically (persisted in SQLite database), while SIMILE Timeline widget itself can be used to reflect static content only (XML document).   
+(See image at the bottom of the page to get the idea)
 
 [url-simile]: http://www.simile-widgets.org/timeline/  "Title"
 
