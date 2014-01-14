@@ -1,0 +1,27 @@
+
+Known Bugs: 
+ - SQL Injection
+ x Server messages are not sent by service: save, delete
+ 
+ 
+Features:
+ x Create workstream
+ x Create keyword protected workstream
+ ! Pass keyword when fetching protected workstream
+ x UI cosmetics
+ ! Validations
+ x Web UI: Modify
+ x Web UI: Add Event
+ x Using SQLite
+ x Web UI: Delete
+ ! Mobile UI: filter events for date-range and workstream
+ x Big Release, larger font size
+ x Classname dropdown
+ 
+Before pushing to GIT:
+ ! yED diagram
+
+Nice to have:
+ - Remove Burndown chart
+ - Nice error message if db (mysql or sqlite) is not set up
+ - Redirect from /, ProjectPlan/, web/, and mobile/ to index.html

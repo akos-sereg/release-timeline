@@ -1,0 +1,4 @@
+<%FOREACH entry IN entries %>
+    <event classname="<% entry.classname %>" eventId="<% entry.event_id %>" isDuration="<% entry.is_duration %>" start="<% entry.start_date %>" <% IF entry.is_duration == 'true' %>end="<% entry.end_date %>"<% END %> title="<% entry.title %>"/>
+<%END%>
+

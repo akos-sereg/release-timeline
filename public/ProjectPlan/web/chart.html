@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Flot Examples</title>
+    <link href="layout.css" rel="stylesheet" type="text/css">
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../excanvas.min.js"></script><![endif]-->
+    
+    
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script language="javascript" type="text/javascript" src="lib/flot/js/jquery.flot.js"></script>
+    
+ </head>
+    <body>
+
+    <div id="placeholder" style="width:400px;height:180px; background: #222222; color: #ffffff"></div>
+    Drop VS Processing
+
+    
+<script type="text/javascript">
+$(function () {
+
+    var d1 = [[0, 25], [1, 21], [2, 20], [3, 18], [4, 14], [5, 13], [6, 10], [7, 5], [8, 10], [9, 7], [10, 2], [11, 0]];
+    var d2 = [[0, 25], [1, 25], [2, 25], [3, 25], [4, 25], [5, 25], [6, 25], [7, 25], [8, 30], [9, 30], [10, 30], [11, 30]];
+
+    $.plot($("#placeholder"), [
+        {
+            data: d1,
+            lines: { show: true, fill: true }
+        },
+        {
+            data: d2,
+            lines: { show: true, fill: false }
+        }
+    ]);
+});
+</script>
+
+ </body>
+</html>

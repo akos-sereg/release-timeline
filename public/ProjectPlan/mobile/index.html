@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Timeline</title>
+		<link rel="stylesheet" href="css/themes/green-design.min.css" />
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile.structure-1.3.2.min.css" />
+		
+		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+		
+		<script src="../web/js/projectplan/projectplan.js"></script>
+		<script src="../web/js/projectplan/dateHelper.js"></script>
+		<script src="js/projectplan.js"></script>
+		<script src="js/ui/timelineList.js"></script>
+		<script src="js/ui/editEvent.js"></script>
+	</head>
+	<body onload="loadEvents();">
+		<!-- *************************************************** -->
+		<!-- MAIN PAGE                                           -->
+		<!-- *************************************************** -->
+		<div data-role="page" data-theme="a">
+			<div data-role="header" data-position="inline">
+				<h1>Timeline</h1>
+			</div>
+			<div data-role="content" data-theme="a">
+				<div data-demo-html="true">
+				<a href="#editEventPage" onClick="resetEventEditor()" data-role="button">Add Event</a>
+				<br/> 
+				<ul id="timelinePlaceholder" data-role="listview" data-filter="true" data-filter-placeholder="Search Event ..." data-inset="true">
+				</ul>
+			</div>
+			</div>
+		</div>
+		
+		<!-- *************************************************** -->
+		<!-- EDIT EVENT PAGE                                     -->
+		<!-- *************************************************** -->
+		<div data-role="page" id="editEventPage" data-theme="a" data-add-back-btn="true" data-back-btn-text="Back">
+			<div data-role="header" data-position="inline">
+				<h1>Event Editor</h1>
+			</div>
+			<div data-role="content" data-theme="a">
+				<div data-demo-html="true">
+					
+					<div data-role="fieldcontain">
+						<label for="workstreamId">Workstream ID:</label>
+						<input type="text" name="workstreamId" id="workstreamId" value="" />
+					</div>
+					
+					<div data-role="fieldcontain">
+						<label for="eventId">Event ID:</label>
+						<input type="text" name="eventId" id="eventId" disabled="disabled" value="" />
+					</div>
+					<div data-role="fieldcontain">
+						<label for="title">Title:</label>
+						<input type="text" name="title" id="title" value="" />
+					</div>
+					<div data-role="fieldcontain">
+						<label for="description">Description:</label>
+						<textarea name="description" id="description"></textarea>
+					</div>
+					<div data-role="fieldcontain">
+						<label for="startDate">Start:</label>
+						<input type="date" name="startDate" id="startDate" value="" />
+					</div>
+					<div data-role="fieldcontain">
+						<label for="endDate">End:</label>
+						<input type="date" name="endDate" id="endDate" value="" />
+					</div>
+					<div data-role="fieldcontain">
+						<label for="classname">Classname:</label>
+						<input type="text" name="classname" id="classname" value="" />
+					</div>
+					Classnames: postpone, release, qa, out_of_office, phase_deadline, prod_defect
+				</div>
+				
+				<input id="saveEventButton" type="button" onClick="saveEvent()" value="Save" />
+				<br/><br/>
+				<input id="deleteEventButton" type="button" onClick="deleteEvent()" value="Delete" />
+				<br/>
+			</div>
+			
+			<!-- *************************************************** -->
+			<!-- Event Edited POPUP                                  -->
+			<!-- *************************************************** -->
+			<div data-role="popup" id="eventEditedPopup" data-back-btn-text="" data-add-back-btn="false" data-overlay-theme="a" data-theme="c" style="max-width:400px;" class="ui-corner-all">
+				<div data-role="header" data-theme="a" class="ui-corner-top">
+					<h1 id="eventEditedPopup_header">Event Saved</h1>
+				</div>
+				<div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+					<h3 class="ui-title" id="eventEditedPopup_title">Event Saved successfully</h3>
+					<p id="eventEditedPopup_message">Click OK button to close this window.</p>
+					<a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c">OK</a>    
+				</div>
+			</div>
+			
+		</div>
+		
+		
+	</body>
+</html>

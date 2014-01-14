@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>jQuery: Customizable layout using drag and drop (examples) - 1. Getting started with sortable lists</title>
+	<link rel="stylesheet" type="text/css" href="css/style-droppable.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="css/style-droppable2.css" media="screen" />
+</head>
+<body class="dhe-body">
+
+<div id="center-wrapper">
+
+	<div class="dhe-example-section" id="ex-1-3">
+		
+		<div class="dhe-example-section-content">
+
+			<!-- BEGIN: XHTML for example 1.3 -->
+
+			<div id="example-1-3">
+
+				<div class="column left first">
+				<span style="font-weight: bold;">Remaining</span>
+
+					<ul class="sortable-list">
+						<li class="sortable-item">Sortable item A</li>
+						<li class="sortable-item">Sortable item B</li>
+					</ul>
+
+				</div>
+
+				<div class="column left">
+				<span style="font-weight: bold;">In Progress</span>
+				
+					<ul class="sortable-list">
+						<li class="sortable-item">Sortable item C</li>
+						<li class="sortable-item">Sortable item D</li>
+					</ul>
+
+				</div>
+
+				<div class="column left">
+				<span style="font-weight: bold;">Done</span>
+
+					<ul class="sortable-list">
+						<li class="sortable-item">Sortable item E</li>
+					</ul>
+
+				</div>
+
+				<div class="clearer">&nbsp;</div>
+
+			</div>
+
+			<!-- END: XHTML for example 1.3 -->
+
+		</div>
+	</div>
+
+
+</div>
+
+<!-- Example JavaScript files -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+
+<!-- Example jQuery code (JavaScript)  -->
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+	// Example 1.3: Sortable and connectable lists with visual helper
+	$('#example-1-3 .sortable-list').sortable({
+		connectWith: '#example-1-3 .sortable-list',
+		placeholder: 'placeholder',
+	});
+
+});
+
+</script>
+
+</body>
+</html>
