@@ -43,5 +43,5 @@ Now you should be able to load the page in your browser:
 The backend is a **Perl** script using **Dancer** app framework, which communicates with a **jQuery/SIMILE Timeline** frontend using **jquery-ajax** and they speak JSON to understand each other :)
 
 
-![Screenshot](/akos-sereg/release-timeline/blob/master/doc/release-timeline.PNG "Release Time screenshot")
+![Screenshot](https://raw.github.com/akos-sereg/release-timeline/master/doc/release-timeline.PNG "Release Time screenshot")
 
