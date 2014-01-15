@@ -24,7 +24,6 @@ Prerequisites:
     $ apt-get install libdancer-perl
     $ apt-get install libdancer-plugin-database-perl
     $ apt-get install libtemplate-perl
-    $ apt-get install libtemplate-perl
     $ apt-get install libjson-perl
     $ apt-get install libdb-sqlite3-perl
     $ apt-get install sqlite3
