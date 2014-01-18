@@ -238,7 +238,7 @@ sub saveEvent {
 	    
 	    $autoIncrementWs = "DEFAULT";
 	    if ($dbEngine eq 'sqlite') {
-		$autoIncrementWs = "(SELECT MAX(workstream_id) FROM workstream)+1";
+		$autoIncrementWs = "(SELECT IFNULL(MAX(workstream_id), 0) FROM workstream)+1";
 	    }
 	
 	    $insertWorkstream = "INSERT INTO workstream (workstream_id, name, password) 
@@ -257,7 +257,7 @@ sub saveEvent {
 	# Insert event into database
 	$autoIncrement = "DEFAULT";
 	if ($dbEngine eq 'sqlite') {
-	    $autoIncrement = "(SELECT MAX(event_id) FROM event)+1";
+	    $autoIncrement = "(SELECT IFNULL(MAX(event_id), 0) FROM event)+1";
 	}
     
     	$command = "INSERT INTO event (
