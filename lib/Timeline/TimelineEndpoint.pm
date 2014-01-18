@@ -28,7 +28,10 @@ get '/ProjectPlan/rest/service/timeline/:workstream/:searchpattern/:tags' => sub
     set layout => 'timeline-xml-data';
     content_type 'text/xml';
     
-    my @entries = Timeline::Storage::DBAccess->getTimelineEntries(param('workstream'), param('searchpattern'), param('tags'));
+    my @entries = Timeline::Storage::DBAccess->getTimelineEntries(
+	getParameter('workstream'), 
+	getParameter('searchpattern'), 
+	getParameter('tags'));
     
     # Assign output to Template & Display
     template 'timeline-xml-data', { 
@@ -71,7 +74,7 @@ get '/ProjectPlan/rest/service/eventDetails/:eventId' => sub {
     	
     # Get Event details
     
-    my $eventDetails = Timeline::Storage::DBAccess->getEventDetails(param('eventId'));
+    my $eventDetails = Timeline::Storage::DBAccess->getEventDetails(getParameter('eventId'));
     
     my %chartData = ('release' => 'a', 'remainingQaTaskData' => '0', 'remainingTaskData' => '0', 'scopeData' => '0');
     $eventDetails->{burndownChartData} = \%chartData;
@@ -108,5 +111,11 @@ post '/ProjectPlan/rest/service/deleteEvent' => sub {
     
 };
 
+
+sub getParameter {
+    
+    my ($parameterName) = @_;
+    return quotemeta param($parameterName);
+}
 
 true;

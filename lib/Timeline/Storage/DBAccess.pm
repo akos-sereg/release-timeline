@@ -4,6 +4,7 @@ use Timeline::Class::Interface;
 use Timeline::Utils::DateHelper;
 use Dancer::Plugin::Database;
 use Date::Parse;
+use HTML::Entities;
 use POSIX qw(strftime);
 
 my $dbEngine = "sqlite";
@@ -23,11 +24,11 @@ sub getTimelineEntries {
     
     $where = "";
     if (defined $workstream && length $workstream > 0) {
-	$where .= " AND workstream_id = ".$workstream;
+	$where .= " AND workstream_id = ".int($workstream);
     }
     
     if (defined $searchpattern && length $searchpattern > 0 && $searchpattern ne '_empty_') {
-	$where .= " AND (title LIKE \'%".$searchpattern."%\' OR description LIKE \'%".$searchpattern."%\')";    
+	$where .= " AND (title LIKE \'%".encode_entities($searchpattern)."%\' OR description LIKE \'%".encode_entities($searchpattern)."%\')";    
     }
     
     my @tagsArr = split(',', $tags);
@@ -35,7 +36,7 @@ sub getTimelineEntries {
 	
 	$result = "";
 	for (my $i=0; $i!=scalar @tagsArr; $i++) {
-	    $result .= '"'.@tagsArr[$i].'"';
+	    $result .= '"'.encode_entities(@tagsArr[$i]).'"';
 	    
 	    if ($i < scalar @tagsArr -1) {
 		$result .= ",";
@@ -52,7 +53,7 @@ sub getTimelineEntries {
     my $query = $dbConn->prepare("SELECT event_id, workstream_id, start_date, end_date, 
 	title, classname, is_active 
 	FROM event WHERE is_active='Y' ".$where." ORDER BY start_date");
-    
+
     $query->execute;
     
     my @entries = ();
@@ -65,6 +66,8 @@ sub getTimelineEntries {
 	if (defined $row->{end_date} && length $row->{end_date} > 0) {
 	    $row->{end_date} = Timeline::Utils::DateHelper->formatDate($row->{end_date}, $simileDateFormat);
 	    $row->{is_duration} = "true";
+	    $row->{title} = decode_entities($row->{title});
+	    $row->{classname} = decode_entities($row->{classname});
 	}
 	
 	$entries[$rowCount] = $row;
@@ -96,6 +99,8 @@ sub getAllTimelineEntries {
 	if (defined $row->{endDate} && length $row->{endDate} > 0) {
 	    $row->{endDate} = Timeline::Utils::DateHelper->formatDate($row->{endDate}, $simileDateFormat);
 	    $row->{is_duration} = "true";
+	    $row->{description} = decode_entities($row->{description});
+	    $row->{title} = decode_entities($row->{title});
 	}
 	
 	$entries[$rowCount] = $row;
@@ -121,6 +126,12 @@ sub getAllWorkstream {
     while (my $row = $query->fetchrow_hashref) {
 	
 	$row->{workstreamId} = $row->{workstream_id};
+	$row->{name} = decode_entities($row->{name});
+	
+	if (defined $row->{password} && length $row->{password} > 0) {
+	    $row->{password} = decode_entities($row->{password});
+	}
+	
 	delete $row->{workstream_id};
 	
 	$entries[$rowCount] = $row;
@@ -137,13 +148,15 @@ sub getEventDetails {
 
     my $query = $dbConn->prepare("SELECT classname, description, event_id as eventId, 
 	start_date as startDate, end_date as endDate, title, workstream_id as workstreamId 
-	FROM event WHERE event_id = '".$eventId."'");
+	FROM event WHERE event_id = '".int($eventId)."'");
     
     $query->execute;
     
     while (my $row = $query->fetchrow_hashref) {
 
 	$row->{startDate} = Timeline::Utils::DateHelper->formatDate($row->{startDate}, $defaultDateFormat);
+	$row->{description} = decode_entities($row->{description});
+	$row->{title} = decode_entities($row->{title});
 	
 	if (defined $row->{endDate} && length $row->{endDate} > 0) {
 	    $row->{endDate} = Timeline::Utils::DateHelper->formatDate($row->{endDate}, $defaultDateFormat);
@@ -162,7 +175,7 @@ sub getWorkstreamIdByName {
 
     my ($workstreamName) = @_;
 
-    my $query = $dbConn->prepare("SELECT workstream_id FROM workstream WHERE name='".$workstreamName."'");
+    my $query = $dbConn->prepare("SELECT workstream_id FROM workstream WHERE name='".encode_entities($workstreamName)."'");
     $query->execute;
     
     while (my $row = $query->fetchrow_hashref) {
@@ -203,13 +216,13 @@ sub saveEvent {
     # ------------------------------------------------    
     if (defined $existingEvent) {
 
-	my $query = $dbConn->prepare("UPDATE event SET start_date='".$eventDetails->{startDate}."',
+	my $query = $dbConn->prepare("UPDATE event SET start_date='".encode_entities($eventDetails->{startDate})."',
 	    end_date=".$endDate.",
-	    workstream_id='".$eventDetails->{workstreamId}."',
-	    title='".$eventDetails->{title}."',
-	    description='".$eventDetails->{description}."',
-	    classname='".$eventDetails->{classname}."'
-	    WHERE event_id = '".$eventDetails->{eventId}."'");
+	    workstream_id='".int($eventDetails->{workstreamId})."',
+	    title='".encode_entities($eventDetails->{title})."',
+	    description='".encode_entities($eventDetails->{description})."',
+	    classname='".encode_entities($eventDetails->{classname})."'
+	    WHERE event_id = '".int($eventDetails->{eventId})."'");
 	    
 	$query->execute;
 	
@@ -229,7 +242,7 @@ sub saveEvent {
 	    }
 	
 	    $insertWorkstream = "INSERT INTO workstream (workstream_id, name, password) 
-		VALUES(".$autoIncrementWs.", '".$eventDetails->{workstreamName}."', '".$eventDetails->{workstreamPassword}."')";
+		VALUES(".$autoIncrementWs.", '".encode_entities($eventDetails->{workstreamName})."', '".encode_entities($eventDetails->{workstreamPassword})."')";
 	    
 	    my $queryWs = $dbConn->prepare($insertWorkstream);
 	    $queryWs->execute;
@@ -259,12 +272,12 @@ sub saveEvent {
     	    ) 
     	    VALUES (
     		".$autoIncrement.", 
-    		'".$eventDetails->{workstreamId}."',
-    		'".$eventDetails->{startDate}."',
-	        ".$endDate.",
-		'".$eventDetails->{title}."',
-		'".$eventDetails->{classname}."',
-		'".$eventDetails->{description}."',
+    		'".int($eventDetails->{workstreamId})."',
+    		'".encode_entities($eventDetails->{startDate})."',
+	        ".encode_entities($endDate).",
+		'".encode_entities($eventDetails->{title})."',
+		'".encode_entities($eventDetails->{classname})."',
+		'".encode_entities($eventDetails->{description})."',
 		'Y'
 	)";
 	
@@ -279,7 +292,7 @@ sub deleteEvent {
 
     my ($class, $eventDetails) = @_;
 
-    my $query = $dbConn->prepare("DELETE FROM event WHERE event_id = '".$eventDetails->{eventId}."'");
+    my $query = $dbConn->prepare("DELETE FROM event WHERE event_id = '".int($eventDetails->{eventId})."'");
     $query->execute;
 }
 
