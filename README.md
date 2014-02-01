@@ -15,6 +15,7 @@ Release Timeline is an extension of the [SIMILE Timeline][url-simile] Project de
 *   Delete existing *events* or *phases*
 *   Browse *events* and *phases* by search pattern and classification
 *   Supports MySQL database as well
+*   Password-protected workstream handling
 
 **Install**   
 Default SQLite database contains sample release-timeline -related *events* and *phases*, just to show the basic idea of the project.  
