@@ -16,7 +16,16 @@ my $defaultDateFormat = "%Y-%m-%dT%H:%M:%S+02:00";
 
 sub getTimelineEntries {
 
-    my ($class, $workstream, $searchpattern, $tags) = @_;
+    my ($class, $workstream, $workstreamPass, $searchpattern, $tags) = @_;
+    
+    # ----------------------------------------------
+    # Authorization
+    # ----------------------------------------------
+    
+    my $authorized = authorizeWorkstream($workstream, $workstreamPass);
+    if ($authorized == 0) {
+	return ();
+    }
     
     # ----------------------------------------------
     # Create select statement
@@ -127,11 +136,14 @@ sub getAllWorkstream {
 	
 	$row->{workstreamId} = $row->{workstream_id};
 	$row->{name} = decode_entities($row->{name});
+	$row->{isProtected} = 0;
 	
 	if (defined $row->{password} && length $row->{password} > 0) {
-	    $row->{password} = decode_entities($row->{password});
+	    # $row->{password} = decode_entities($row->{password});
+	    $row->{isProtected} = 1;
 	}
 	
+	delete $row->{password};
 	delete $row->{workstream_id};
 	
 	$entries[$rowCount] = $row;
@@ -190,6 +202,15 @@ sub saveEvent {
 
     my ($class, $eventDetails) = @_;
     
+    my $authorized = 1;
+    if ($eventDetails->{workstreamId} > 0) {
+	$authorized = authorizeWorkstream($eventDetails->{workstreamId}, $eventDetails->{workstreamPwd});
+    }
+    
+    if ($authorized == 0) {
+	return 1;
+    }
+    
     my $existingEvent = ();
     
     if (defined $eventDetails->{eventId} && length $eventDetails->{eventId} > 0) {
@@ -233,7 +254,7 @@ sub saveEvent {
 	if ($eventDetails->{workstreamId} == -1) {
 	    
 	    if ($eventDetails->{workstreamName} eq '') {
-		return;
+		return 2;
 	    }
 	    
 	    $autoIncrementWs = "DEFAULT";
@@ -250,7 +271,7 @@ sub saveEvent {
 	    # Get workstream_id
 	    $eventDetails->{workstreamId} = getWorkstreamIdByName($eventDetails->{workstreamName});
 	    if ($eventDetails->{workstreamId} == -1) {
-		return;
+		return 3;
 	    }
 	}
     
@@ -286,6 +307,8 @@ sub saveEvent {
 	$query->execute;
     
     }
+    
+    return 0;
 }
 
 sub deleteEvent {
@@ -294,6 +317,42 @@ sub deleteEvent {
 
     my $query = $dbConn->prepare("DELETE FROM event WHERE event_id = '".int($eventDetails->{eventId})."'");
     $query->execute;
+}
+
+sub authorizeWorkstream {
+
+    my ($workstreamId, $workstreamPass) = @_;
+    
+    my $password = "";
+    my $workstreamFound = 0;
+    
+    my $query = $dbConn->prepare("SELECT password FROM workstream WHERE workstream_id='".encode_entities($workstreamId)."'");
+    $query->execute;
+    
+    while (my $row = $query->fetchrow_hashref) {
+	$password = $row->{password};
+	$workstreamFound = 1;
+    }
+    
+    if ($workstreamFound) {
+	if (defined $password && length $password > 0 && $password eq $workstreamPass) {
+	    # Workstream is password-protected, correct password given
+	    return 1;
+	}
+	
+	if (!defined $password) {
+	    # Workstream is not password-protected
+	    return 1;
+	}
+	
+	# Not authorized
+	return 0;
+	
+    }
+    else {
+	# Workstream not found, not authorized
+	return 0;
+    }
 }
 
 

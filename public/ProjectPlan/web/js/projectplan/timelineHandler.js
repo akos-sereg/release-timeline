@@ -1,4 +1,5 @@
 var lastLoadedEvent;
+var workstreams;
 
 /**
  * Load event data into form
@@ -39,6 +40,7 @@ function buildEventByForm() {
 			"description":$('#eventDetailsPlaceholderDesc').val(),
 			"eventId":$('#eventDetailsPlaceholderEventId').val(),
 			"workstreamId":$('#eventDetailsPlaceholderWorkstreamId').val(),
+			"workstreamPwd":$('#eventDetailsPlaceholderWorkstreamPass').val(),
 			"startDate":$('#eventDetailsPlaceholderStart').val(),
 			"endDate":$('#eventDetailsPlaceholderEnd').val(),
 			"title":$('#eventDetailsPlaceholder').val()
@@ -98,6 +100,7 @@ function createNewEvent() {
 			"workstreamId":$('#eventDetailsInsPlaceholderWorkstreamId').val(),
 			"workstreamName":$('#eventDetailsInsWorkstream').val(),
 			"workstreamPassword":$('#eventDetailsInsWorkstreamPassword').val(),
+			"workstreamPwd":$('#addEventWorkstreamPass').val(),
 			"startDate":$('#eventDetailsInsPlaceholderStart').val(),
 			"endDate":$('#eventDetailsInsPlaceholderEnd').val(),
 			"title":$('#eventDetailsInsPlaceholder').val()
@@ -292,6 +295,9 @@ function loadWorkstreams(workstreamNameToLoad) {
 		
 		// Populate Workstream Dropdown lists
 		var options = [];
+		
+		workstreams = msg.workstream;
+		
 		for (var i = 0; i < msg.workstream.length; i++) {
 	        options.push('<option value="',
 	        	msg.workstream[i].workstreamId, 
@@ -322,6 +328,22 @@ function displayNewWorkstreamScreen() {
 	else {
 		$("#newWorkstreamScreen").hide();
 	}
+	
+	var isProtected = false;
+    
+	for (var i = 0; i < workstreams.length; i++) {
+	    if (workstreams[i].workstreamId == workstreamId) {
+		isProtected = workstreams[i].isProtected;
+		break;
+	    }
+	}
+    
+	if (isProtected) {
+	    $("#workstream_addevent_pwd").show();
+	} 
+	else {
+	    $("#workstream_addevent_pwd").hide();
+	}
 }
 
 function setMessage(placeholder, message) {
@@ -332,4 +354,24 @@ function setMessage(placeholder, message) {
 	if (message != '' && message != null) {
 		$('#'+placeholder).show("slide");
 	} 
+}
+
+function onWorkstreamSelected() {
+
+    var selectedWorkstreamId = $("#workstream").val();
+    var isProtected = false;
+    
+    for (var i = 0; i < workstreams.length; i++) {
+	if (workstreams[i].workstreamId == selectedWorkstreamId) {
+	    isProtected = workstreams[i].isProtected;
+	    break;
+	}
+    }
+    
+    if (isProtected) {
+	$("#workstream_password_div").show();
+    }
+    else {
+	$("#workstream_password_div").hide();
+    }
 }

@@ -2,15 +2,7 @@
 <head>
 <title>Release Timeline</title>
 	<link rel='stylesheet' href='css/styles.css' type='text/css' />
-<!-- 	 <link rel="stylesheet" href="http://codeorigin.jquery.com/ui/1.8.24/themes/dark-hive/jquery-ui.css"> -->
-<!-- 	 <link rel="stylesheet" href="http://codeorigin.jquery.com/ui/1.8.24/themes/mint-choc/jquery-ui.css"> -->
  	 <link rel="stylesheet" href="http://codeorigin.jquery.com/ui/1.8.24/themes/ui-darkness/jquery-ui.css">
-<!-- 	 <link rel="stylesheet" href="http://codeorigin.jquery.com/ui/1.8.24/themes/vader/jquery-ui.css"> -->
-	
-
-	<!-- <script
-	src="http://api.simile-widgets.org/timeline/2.3.1/timeline-api.js"
-	type="text/javascript"></script>-->
 	
 	<script language="javascript" type="text/javascript" src="js/projectplan/projectplan.js"></script>
 	
@@ -152,7 +144,13 @@
 			workstreamId = $('#workstream').val();
 		}
 		
+		var workstreamPass = "nopass";
+		if ($('#stream_password').val() != null && $('#stream_password').val().length > 0) {
+			workstreamPass = $('#stream_password').val();
+		}
+		
 		tl.loadXML(serviceHost + "/timeline/"+workstreamId+
+				"/"+workstreamPass+
 				"/"+description+
 				"/"+clazz, function(xml, url) {
 			eventSource.loadXML(xml, url);
@@ -430,9 +428,15 @@ $( "#tabs" ).tabs();
 			<fieldset style="width: 500px;">
 				
 				<label for="stream">Workstream:</label>
-				<select class="timeline_input" id="workstream" name="workstream">
+				<select class="timeline_input" onChange="onWorkstreamSelected()" id="workstream" name="workstream">
 				</select>
 				<br/>
+				
+				<div id="workstream_password_div">
+				    <label for="stream_password">Password:</label>
+				    <input type="password" id="stream_password" name="stream_password" class="timeline_input"/>
+				<br/>
+				</div>
 				
 				<label for="description">Description Contains:</label>
 				<input type="text" id="description" name="description" class="timeline_input"/>
@@ -475,6 +479,13 @@ $( "#tabs" ).tabs();
 							<td>&nbsp;&nbsp;</td>
 							<td>
 								<select onchange="displayNewWorkstreamScreen()" class="timeline_input" id="eventDetailsInsPlaceholderWorkstreamId"></select>
+							</td>
+						</tr>
+						<tr id="workstream_addevent_pwd">
+							<td align="right" width="100" style="color: #999999;">Password:</td>
+							<td>&nbsp;&nbsp;</td>
+							<td>
+								<input type="password" class="timeline_input" name="addEventWorkstreamPass" id="addEventWorkstreamPass" />
 							</td>
 						</tr>
 						<tr id="newWorkstreamScreen">
@@ -570,6 +581,11 @@ $( "#tabs" ).tabs();
 							<td><input type="text" class="timeline_input" style="width: 600px;" id="eventDetailsPlaceholder"/></td>
 						</tr>
 						<tr>
+							<td align="right" width="100" style="color: #999999;">Password:</td>
+							<td>&nbsp;&nbsp;</td>
+							<td><input type="password" class="timeline_input" id="eventDetailsPlaceholderWorkstreamPass"/> This is not required, if event belongs to a non-protected workstream</td>
+						</tr>
+						<tr>
 							<td align="right" width="100" style="color: #999999;">Start:</td>
 							<td>&nbsp;&nbsp;</td>
 							<td><input type="text" class="timeline_input" id="eventDetailsPlaceholderStart"/></td>
@@ -631,8 +647,10 @@ $( "#tabs" ).tabs();
 	<script type="text/javascript">
 	
 	$("#newWorkstreamScreen").hide();
+	$("#workstream_password_div").hide();
+	$("#workstream_addevent_pwd").hide();
 	
-	 $(function() {
+	$(function() {
 		 $( "button" )
 		 .button()
 		 .click(function( event ) {

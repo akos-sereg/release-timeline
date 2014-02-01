@@ -22,7 +22,7 @@ get '/ProjectPlan/web' => sub {
 # -------------------------------------------------------------------------
 # XML: Get Timeline Entries - Web UI, Simile timeline
 # -------------------------------------------------------------------------
-get '/ProjectPlan/rest/service/timeline/:workstream/:searchpattern/:tags' => sub {
+get '/ProjectPlan/rest/service/timeline/:workstream/:password/:searchpattern/:tags' => sub {
 
     # Preparing for XML output
     set layout => 'timeline-xml-data';
@@ -30,6 +30,7 @@ get '/ProjectPlan/rest/service/timeline/:workstream/:searchpattern/:tags' => sub
     
     my @entries = Timeline::Storage::DBAccess->getTimelineEntries(
 	getParameter('workstream'), 
+	getParameter('password'),
 	getParameter('searchpattern'), 
 	getParameter('tags'));
     
@@ -45,11 +46,11 @@ get '/ProjectPlan/rest/service/timeline/:workstream/:searchpattern/:tags' => sub
 # -------------------------------------------------------------------------
 get '/ProjectPlan/rest/service/getAllEvent' => sub {
 
-    content_type 'text/json';
-    my @entries = Timeline::Storage::DBAccess->getAllTimelineEntries();
+    #content_type 'text/json';
+    #my @entries = Timeline::Storage::DBAccess->getAllTimelineEntries();
     
-    my %result = ('eventDetails' => \@entries);
-    return encode_json \%result;    
+    #my %result = ('eventDetails' => \@entries);
+    #return encode_json \%result;    
 };
 
 # -------------------------------------------------------------------------
@@ -90,10 +91,15 @@ post '/ProjectPlan/rest/service/saveEvent' => sub {
     content_type 'text/json';
     
     my $eventDetails = decode_json request->body;
-    Timeline::Storage::DBAccess->saveEvent($eventDetails);
+    my $errorCode = Timeline::Storage::DBAccess->saveEvent($eventDetails);
     
     # Response
-    return '{"code":"0"}';
+    my $errorMessage = "";
+    if ($errorCode == 1) { $errorMessage = "Authorization error"; }
+    if ($errorCode == 2) { $errorMessage = "Workstream can not be created, name is missing"; }
+    if ($errorCode == 3) { $errorMessage = "Workstream could not be created"; }
+    
+    return '{"code":"'.$errorCode.'", "message":"'.$errorMessage.'"}';
 };
 
 # -------------------------------------------------------------------------
