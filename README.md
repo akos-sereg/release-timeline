@@ -26,7 +26,7 @@ Prerequisites:
     $ apt-get install libdancer-plugin-database-perl
     $ apt-get install libtemplate-perl
     $ apt-get install libjson-perl
-    $ apt-get install libdb-sqlite3-perl
+    $ apt-get install libdbd-sqlite3-perl
     $ apt-get install sqlite3
 
 Having all dependencies installed, just simply start app.pl
