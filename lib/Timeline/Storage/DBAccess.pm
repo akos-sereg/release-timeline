@@ -17,7 +17,7 @@ my $defaultDateFormat = "%Y-%m-%dT%H:%M:%S+02:00";
 sub getTimelineEntries {
 
     my ($class, $workstream, $workstreamPass, $searchpattern, $tags) = @_;
-    
+
     # ----------------------------------------------
     # Authorization
     # ----------------------------------------------
@@ -45,13 +45,15 @@ sub getTimelineEntries {
 	
 	$result = "";
 	for (my $i=0; $i!=scalar @tagsArr; $i++) {
-	    $result .= '"'.encode_entities(@tagsArr[$i]).'"';
+	    $tag = encode_entities(@tagsArr[$i]);
+	    $tag =~ s/\\//g;
+	    $result .= '"'.$tag.'"';
 	    
 	    if ($i < scalar @tagsArr -1) {
 		$result .= ",";
 	    }
 	}
-	
+
 	$where .= " AND classname IN (".$result.")";
     }
     
@@ -340,11 +342,11 @@ sub authorizeWorkstream {
 	    return 1;
 	}
 	
-	if (!defined $password) {
+	if (!defined $password || (defined $password && length $password == 0)) {
 	    # Workstream is not password-protected
 	    return 1;
 	}
-	
+
 	# Not authorized
 	return 0;
 	
