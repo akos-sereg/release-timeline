@@ -46,11 +46,11 @@ get '/ProjectPlan/rest/service/timeline/:workstream/:password/:searchpattern/:ta
 # -------------------------------------------------------------------------
 get '/ProjectPlan/rest/service/getAllEvent' => sub {
 
-    #content_type 'text/json';
-    #my @entries = Timeline::Storage::DBAccess->getAllTimelineEntries();
+    content_type 'text/json';
+    my @entries = Timeline::Storage::DBAccess->getAllTimelineEntries();
     
-    #my %result = ('eventDetails' => \@entries);
-    #return encode_json \%result;    
+    my %result = ('eventDetails' => \@entries);
+    return encode_json \%result;    
 };
 
 # -------------------------------------------------------------------------
