@@ -297,7 +297,7 @@ sub saveEvent {
     		".$autoIncrement.", 
     		'".int($eventDetails->{workstreamId})."',
     		'".encode_entities($eventDetails->{startDate})."',
-	        ".encode_entities($endDate).",
+	        '".encode_entities($eventDetails->{endDate})."',
 		'".encode_entities($eventDetails->{title})."',
 		'".encode_entities($eventDetails->{classname})."',
 		'".encode_entities($eventDetails->{description})."',
