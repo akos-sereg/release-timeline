@@ -20,7 +20,18 @@
 
 <script>
 
+	function getUrlVars() {
+	    var vars = {};
+	    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,    
+	    function(m,key,value) {
+	      vars[key] = value;
+	    });
+	    return vars;
+	 }
+
 	var tl;
+	var isMonthBased = getUrlVars()["month_based"] != undefined;
+
 	function refreshTimeline() {
 		
 		var eventSource = new Timeline.DefaultEventSource();
@@ -31,11 +42,19 @@
 		var theme = Timeline.ClassicTheme.create();
 		theme.event.bubble.width = 250;
 
+		var unitBase = Timeline.DateTime.WEEK;
+		var unitScrolling = Timeline.DateTime.MONTH;
+
+		if (isMonthBased === true) {
+			unitBase = Timeline.DateTime.MONTH;
+			unitScrolling = Timeline.DateTime.YEAR;
+		}
+
 		var date = new Date();
 		var bandInfos = [ 
 			Timeline.createHotZoneBandInfo({
 				width : "80%",
-				intervalUnit : Timeline.DateTime.WEEK,
+				intervalUnit : unitBase,
 				intervalPixels : 200,
 				zones : zones,
 				eventSource : eventSource,
@@ -44,7 +63,7 @@
 			}), 
 			Timeline.createHotZoneBandInfo({
 				width : "20%",
-				intervalUnit : Timeline.DateTime.MONTH,
+				intervalUnit : unitScrolling,
 				intervalPixels : 200,
 				zones : zones2,
 				eventSource : eventSource,
