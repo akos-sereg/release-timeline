@@ -1,6 +1,5 @@
 package Timeline::Storage::DBAccess;
 
-use Timeline::Class::Interface;
 use Timeline::Utils::DateHelper;
 use Dancer::Plugin::Database;
 use Date::Parse;
