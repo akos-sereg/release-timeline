@@ -3,10 +3,11 @@ release-timeline
 
 
 **Description**   
-Release Timeline is an extension of the [SIMILE Timeline][url-simile] Project developed by Massachusetts Institute of Technology. This project allows you to manage timeline content dynamically (persisted in SQLite database), while SIMILE Timeline widget itself can be used to reflect static content only (XML document).   
+Release Timeline is an extension of the [SIMILE Timeline][url-simile] project ([find repository here][repo-simile]). This project allows you to manage timeline content dynamically (persisted in SQLite database), while SIMILE Timeline widget itself can be used to reflect static content only (XML document).   
 (See image at the bottom of the page to get the idea)
 
 [url-simile]: http://www.simile-widgets.org/timeline/  "Title"
+[repo-simile]: https://github.com/davidw/simile-timeline  "Repository"
 
 **Features**
 *   Add *event* or *phase* to *Workstream*
