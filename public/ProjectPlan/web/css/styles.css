@@ -137,3 +137,185 @@ table.spaced-table tr:first-child td {
 }
 
 .tape-special_event, .small-special_event { background-color: orange; }
+
+
+.serviceError {
+	color: #FF0000;
+}
+
+.serviceSuccess {
+	color: #00FF00;
+}
+
+.t-highlight1 {
+	background-color: #ccf;
+}
+
+.p-highlight1 {
+	background-color: #fcc;
+}
+
+.timeline-highlight-label-start .label_t-highlight1 {
+	color: #f00;
+}
+
+.timeline-highlight-label-end .label_t-highlight1 {
+	color: #aaf;
+}
+
+.timeline-band-events .important {
+	color: #f00;
+}
+
+.timeline-band-events .out_of_office {
+	color: #666666;
+}
+
+.timeline-band-events .prod_defect {
+	color: #FF0000;
+}
+
+.timeline-band-events .phase_deadline {
+	color: #00ff00;
+	font-weight: bold;
+}
+
+.timeline-band-events .release {
+	color: #00ff00;
+}
+
+.timeline-band-events .postpone {
+	color: #0008FF;
+}
+
+.timeline-band-events .major_release {
+	color: #00ff00;
+	font-weight: bold;
+}
+
+.timeline-band-events .qa {
+	color: #ff00ff;
+}
+
+.timeline-band-events .small-important {
+	background: #c00;
+}
+
+
+/*---------------------------------*/
+.dark-theme {
+	color: #eee;
+}
+
+.dark-theme .timeline-band-0 .timeline-ether-bg {
+	background-color: #333
+}
+
+.dark-theme .timeline-band-1 .timeline-ether-bg {
+	background-color: #111
+}
+
+.dark-theme .timeline-band-2 .timeline-ether-bg {
+	background-color: #222
+}
+
+.dark-theme .timeline-band-3 .timeline-ether-bg {
+	background-color: #444
+}
+
+.dark-theme .t-highlight1 {
+	background-color: #003;
+}
+
+.dark-theme .p-highlight1 {
+	background-color: #300;
+}
+
+.dark-theme .timeline-highlight-label-start .label_t-highlight1 {
+	color: #f00;
+}
+
+.dark-theme .timeline-highlight-label-end .label_t-highlight1 {
+	color: #115;
+}
+
+.dark-theme .timeline-band-events .important {
+	color: #c00;
+}
+
+.dark-theme .timeline-band-events .small-important {
+	background: #c00;
+}
+
+.dark-theme .timeline-date-label-em {
+	color: #fff;
+}
+
+.dark-theme .timeline-ether-lines {
+	border-color: #555;
+	border-style: solid;
+}
+
+.dark-theme .timeline-ether-highlight {
+	background: #555;
+}
+
+.dark-theme .timeline-event-tape,.dark-theme .timeline-small-event-tape
+	{
+	background: #f60;
+}
+
+.dark-theme .timeline-ether-weekends {
+	background: #111;
+}
+
+.timeline_input {
+	background: #222222;
+	color: #ffffff;
+	border: 0px;
+	font-size: 9pt;
+	margin: 2px;
+	width: 300px;
+}
+
+.timeline_textarea {
+	background: #222222;
+	color: #ffffff;
+	border: 0px;
+	font-size: 9pt;
+	margin: 2px;
+	width: 600px;
+	height: 70px;
+}
+
+
+.timeline_btn {
+	background: #222222;
+	color: #ffffff;
+	border: 0px;
+	font-size: 9pt;
+	margin: 2px;
+}
+
+fieldset { border:0px solid;
+ padding: 1em;
+  font:80%/1 sans-serif;
+ }
+
+legend {
+  padding: 0.2em 0.5em;
+  border:0px solid;
+  color:green;
+  font-size:90%;
+  text-align:right;
+  }
+  
+  label {
+  float:left;
+  width:25%;
+  margin: 2px;
+  margin-right:10px;
+  padding-top:0.2em;
+  text-align:right;
+  font-weight:bold;
+  }
