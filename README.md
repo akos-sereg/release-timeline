@@ -37,7 +37,7 @@ Having all dependencies installed, just simply start app.pl
 
 Now you should be able to load the page in your browser:
     
-    http://127.0.0.1:3000/ProjectPlan/web/index.html
+    http://127.0.0.1:3008/ProjectPlan/web/index.html
 
 
 **Technical details**
