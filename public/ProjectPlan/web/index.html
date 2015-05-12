@@ -1,20 +1,17 @@
 <html>
 <head>
 <title>Release Timeline</title>
+
 	<link rel='stylesheet' href='css/styles.css' type='text/css' />
- 	 <link rel="stylesheet" href="http://codeorigin.jquery.com/ui/1.8.24/themes/ui-darkness/jquery-ui.css">
+ 	<link rel="stylesheet" href="http://codeorigin.jquery.com/ui/1.8.24/themes/ui-darkness/jquery-ui.css">
 	
 	<script language="javascript" type="text/javascript" src="js/projectplan/projectplan.js"></script>
-	
 	<script>
-      Timeline_ajax_url = serviceRoot + "/web/js/simile-ajax-api.js?bundle=true";
-      Timeline_urlPrefix = serviceRoot + '/web/js/';       
-      Timeline_parameters='bundle=true';
+		Timeline_ajax_url = serviceRoot + "/web/js/simile-ajax-api.js?bundle=true";
+		Timeline_urlPrefix = serviceRoot + '/web/js/';       
+		Timeline_parameters='bundle=true';
     </script>
-    <script src="/ProjectPlan/web/js/timeline-api.js?bundle=true"    
-      type="text/javascript">
-    </script> 
-    
+    <script src="/ProjectPlan/web/js/timeline-api.js?bundle=true" type="text/javascript"></script> 
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 	<script language="javascript" type="text/javascript" src="js/projectplan/debugConsole.js"></script>
@@ -29,30 +26,43 @@
 		var eventSource = new Timeline.DefaultEventSource();
 
 		var zones = [ ];
+		var zones2 = [ ];
 
 		var theme = Timeline.ClassicTheme.create();
 		theme.event.bubble.width = 250;
 
 		var date = new Date();
-		var bandInfos = [ Timeline.createHotZoneBandInfo({
-			width : "80%",
-			intervalUnit : Timeline.DateTime.WEEK,
-			intervalPixels : 200,
-			zones : zones,
-			eventSource : eventSource,
-			date : date,
-			timeZone : -6
-		})];
-		
+		var bandInfos = [ 
+			Timeline.createHotZoneBandInfo({
+				width : "80%",
+				intervalUnit : Timeline.DateTime.WEEK,
+				intervalPixels : 200,
+				zones : zones,
+				eventSource : eventSource,
+				date : date,
+				timeZone : -6
+			}), 
+			Timeline.createHotZoneBandInfo({
+				width : "20%",
+				intervalUnit : Timeline.DateTime.MONTH,
+				intervalPixels : 200,
+				zones : zones2,
+				eventSource : eventSource,
+				date : date,
+				timeZone : -6,
+				overview : true
+			}) 
+		];
+		bandInfos[1].syncWith = 0;
+		bandInfos[1].highlight = true;
+
 		for ( var i = 0; i < bandInfos.length; i++) {
 			bandInfos[i].decorators = [ 
-				new Timeline.PointHighlightDecorator({
-					date : new Date(),
-					//color : "#FFC080",
-					color : "#00FF00",
-					opacity : 10
-				})
-			];
+			new Timeline.PointHighlightDecorator({
+				date : new Date(),
+				color : "#00FF00",
+				opacity : 10
+			})];
 		}
 		
 		var workstreamId = $('#workstream').val();
@@ -127,13 +137,14 @@
 			appendWarning('No EventId found for ' + evt.getText());
 		}
 	}
-		
+	
 </script>
 </head>
 <body style="margin-left: 0px; margin-right: 0px; margin-top: 0px; background-color: #000000; color: #ffffff;" onload="refreshTimeline();">
+	
 	<div id="headerContent" style="background-color: #000000; padding: 10px; border-bottom-style: solid; border-bottom: solid 2px #333333;"></div>
 	<div id="tl" class="timeline-default dark-theme" style="height: 380px; margin-top: 0px; margin-bottom: 0px; border-width: 0px;"></div>
-	
+
 	<script>
 		$(function() {
 			$( "#tabs" ).tabs();
@@ -368,13 +379,13 @@
 	$("#workstream_addevent_pwd").hide();
 	
 	$(function() {
-		$("button")
-			.button()
-			.click(function( event ) {
-				event.preventDefault();
-			});
+		$( "button" )
+		.button()
+		.click(function( event ) {
+			event.preventDefault();
+		});
 	});
-	
+	 
 	appendStatus('Console initialized, using backend at ' + serviceHost);
 	loadWorkstreams();
 	
