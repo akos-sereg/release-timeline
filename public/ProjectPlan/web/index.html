@@ -5,16 +5,17 @@
 	<link rel='stylesheet' href='css/styles.css' type='text/css' />
  	<link rel="stylesheet" href="http://codeorigin.jquery.com/ui/1.8.24/themes/ui-darkness/jquery-ui.css">
 	
+	<script language="javascript" type="text/javascript" src="js/projectplan/debugConsole.js"></script>
+	<script language="javascript" type="text/javascript" src="js/utils.js"></script>
 	<script language="javascript" type="text/javascript" src="js/projectplan/projectplan.js"></script>
 	<script>
 		Timeline_ajax_url = serviceRoot + "/web/js/simile-ajax-api.js?bundle=true";
 		Timeline_urlPrefix = serviceRoot + '/web/js/';       
-		Timeline_parameters='bundle=true';
+		Timeline_parameters = 'bundle=true';
     </script>
     <script src="/ProjectPlan/web/js/timeline-api.js?bundle=true" type="text/javascript"></script> 
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-	<script language="javascript" type="text/javascript" src="js/projectplan/debugConsole.js"></script>
 	<script language="javascript" type="text/javascript" src="js/projectplan/typeWriter.js"></script>
 	<script language="javascript" type="text/javascript" src="js/projectplan/timelineHandler.js"></script>
 
@@ -107,7 +108,9 @@
 		if ($('#workstream').val() != null) {
 			workstreamId = $('#workstream').val();
 		}
-		
+
+		setCookie('SelectedWorkstreamId', workstreamId, 365);
+
 		var workstreamPass = "nopass";
 		if ($('#stream_password').val() != null && $('#stream_password').val().length > 0) {
 			workstreamPass = $('#stream_password').val();
@@ -120,6 +123,11 @@
 			eventSource.loadXML(xml, url);
 		});
 
+	}
+
+	function initTimeline() {
+		setDefaultWorkstream();
+		refreshTimeline();
 	}
 
 	var resizeTimerID = null;
@@ -159,7 +167,7 @@
 	
 </script>
 </head>
-<body style="margin-left: 0px; margin-right: 0px; margin-top: 0px; background-color: #000000; color: #ffffff;" onload="refreshTimeline();">
+<body style="margin-left: 0px; margin-right: 0px; margin-top: 0px; background-color: #000000; color: #ffffff;" onload="initTimeline();">
 	
 	<div id="headerContent" style="background-color: #000000; padding: 10px; border-bottom-style: solid; border-bottom: solid 2px #333333;"></div>
 	<div id="tl" class="timeline-default dark-theme" style="height: 380px; margin-top: 0px; margin-bottom: 0px; border-width: 0px;"></div>

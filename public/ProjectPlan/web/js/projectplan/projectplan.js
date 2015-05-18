@@ -1,9 +1,20 @@
 var serviceRoot = "http://"+window.location.host+"/ProjectPlan";
-
 var serviceHost = serviceRoot + "/rest/service";
 var defaultWorkstreamId = 1;
+
+function setDefaultWorkstream() {
+	defaultWorkstreamId = getCookie('SelectedWorkstreamId');
+	if (defaultWorkstreamId == '') {
+		appendInfo('Workstream not found in Cookie, using default (WorkstreamID = 1)');
+		defaultWorkstreamId = 1;
+	}
+	else {
+		appendInfo('Using workstream found in cookie: ' + defaultWorkstreamId);
+	}
+}
+
+
 var dateFormat = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/
-//var serviceHost = "http://192.168.1.78:3000/ProjectPlan/rest/service";
 
 function getReleaseDescription(release_) {
 	var re = new RegExp('.*(CRV/[0-9.]*).*');

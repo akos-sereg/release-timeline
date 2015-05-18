@@ -1,4 +1,3 @@
-
 function appendInfo(message_)
 {
 	var debugConsole = document.getElementById('debugConsolePlaceholder');
