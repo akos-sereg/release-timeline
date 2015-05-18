@@ -398,11 +398,14 @@
 	$("#workstream_addevent_pwd").hide();
 	
 	$(function() {
-		$( "button" )
-		.button()
-		.click(function( event ) {
+		$("button").button().click(function( event ) {
 			event.preventDefault();
 		});
+
+		$("#eventDetailsInsPlaceholderStart").datepicker({ dateFormat: "yy-mm-dd" });
+		$("#eventDetailsInsPlaceholderEnd").datepicker({ dateFormat: "yy-mm-dd" });
+		$("#eventDetailsPlaceholderStart").datepicker({ dateFormat: "yy-mm-dd" });
+		$("#eventDetailsPlaceholderEnd").datepicker({ dateFormat: "yy-mm-dd" });
 	});
 	 
 	appendStatus('Console initialized, using backend at ' + serviceHost);
