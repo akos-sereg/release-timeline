@@ -31,10 +31,15 @@
 	 }
 
 	var tl;
-	var isMonthBased = getUrlVars()["month_based"] != undefined;
 
 	function refreshTimeline() {
 		
+		// Get selected scale
+		var scaleControl = document.getElementById('scale');
+		var selectedScale = scaleControl.options[scaleControl.selectedIndex].value;
+		setCookie('SelectedScale', selectedScale, 365);
+		var isMonthBased = selectedScale == 'month';
+
 		var eventSource = new Timeline.DefaultEventSource();
 
 		var zones = [ ];
@@ -202,6 +207,14 @@
 				<label for="description">Description Contains:</label>
 				<input type="text" id="description" name="description" class="timeline_input"/>
 				<br/>
+
+				<label for="description">Scale:</label>
+				<select id="scale" class="timeline_input">
+					<option value="week">Week based</option>
+					<option value="month">Month based</option>
+				</select>
+				<br/>
+
 				
 				<label for="class">Classification:</label>
 				<div>
