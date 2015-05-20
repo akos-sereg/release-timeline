@@ -360,18 +360,20 @@ function onWorkstreamSelected() {
 
     var selectedWorkstreamId = $("#workstream").val();
     var isProtected = false;
+
+    $('#eventDetailsInsPlaceholderWorkstreamId').val(selectedWorkstreamId);
     
     for (var i = 0; i < workstreams.length; i++) {
-	if (workstreams[i].workstreamId == selectedWorkstreamId) {
-	    isProtected = workstreams[i].isProtected;
-	    break;
-	}
+		if (workstreams[i].workstreamId == selectedWorkstreamId) {
+		    isProtected = workstreams[i].isProtected;
+		    break;
+		}
     }
     
     if (isProtected) {
-	$("#workstream_password_div").show();
+		$("#workstream_password_div").show();
     }
     else {
-	$("#workstream_password_div").hide();
+		$("#workstream_password_div").hide();
     }
 }
