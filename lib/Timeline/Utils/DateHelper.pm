@@ -10,7 +10,7 @@ sub formatDate {
     my ($class, $inDate, $dateFormat) = @_;
     
     $dateTime = str2time($inDate); # 2012-01-01 12:00:00 -> EPOCH integer
-    $dateTimeStr = strftime $dateFormat, localtime($dateTime); # EPOCT -> Simile compatible
+    $dateTimeStr = strftime($dateFormat, localtime($dateTime)); # EPOCT -> Simile compatible
 
     return $dateTimeStr;
 }
